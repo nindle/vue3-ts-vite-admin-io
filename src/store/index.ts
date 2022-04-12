@@ -7,6 +7,7 @@ export default createStore({
   mutations: {
     setToken(state) {
       state.token = true
+      window.localStorage.setItem('token', 'true')
     },
     removeToken(state) {
       state.token = false

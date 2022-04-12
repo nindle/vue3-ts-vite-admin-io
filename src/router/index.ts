@@ -5,14 +5,17 @@ import store from '../store/index'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Layout',
+    component: () => import('../Layout/index.vue'),
+    children: [
+      {
+        path: '/about',
+        name: 'about',
+        component: () => import('../views/about/index.vue')
+      },
+    ]
   },
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/about/index.vue')
-  },
+
   {
     path: '/login',
     name: 'login',
@@ -21,16 +24,22 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  // history: createWebHashHistory(),
-  history: createWebHistory("/"),
+  history: createWebHashHistory(),
+  // history: createWebHistory("/"),
   routes,
 })
 router.beforeEach((to, from, next) => {
-  if (store.state.token) {
+  console.log(store.state.token);
+  if (to.path === '/login') {
     next()
   } else {
-    // window.location.href = `${window.location.href}/login`
+    if (store.state.token || window.localStorage.getItem('token')) {
+      next()
+    } else {
+      next({ path: '/login' });
+    }
   }
+
 })
 
 export default router
