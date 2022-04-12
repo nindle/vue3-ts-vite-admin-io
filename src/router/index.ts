@@ -31,6 +31,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   console.log(store.state.token);
   if (to.path === '/login') {
+    if (store.state.token || window.localStorage.getItem('token')) {
+      next({ path: '/' });
+    } else {
+      next();
+    }
     next()
   } else {
     if (store.state.token || window.localStorage.getItem('token')) {
