@@ -9,5 +9,21 @@ export default defineConfig({
 
     Components({
       resolvers: [AntDesignVueResolver()],
-    }),]
+    }),
+  ],
+
+  resolve: {
+    alias: {
+      '@': '/src'
+    }
+  },
+
+  css: {
+    //css预处理
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "@/assets/scss/globalVariable.scss";'
+      }
+    }
+  }
 })
