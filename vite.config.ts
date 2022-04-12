@@ -18,11 +18,22 @@ export default defineConfig({
     }
   },
 
+  server: {
+    // https: true,
+    // proxy: {
+    //   '/api': {
+    //     target: 'https://data-access.topcj.com/',
+    //     changeOrigin: true,
+    //     rewrite: path => path.replace(/^\/api/, ''),
+    //   },
+    // },
+  },
+
   css: {
     //css预处理
     preprocessorOptions: {
       scss: {
-        additionalData: '@import "@/assets/scss/globalVariable.scss";'
+        additionalData: '@import "@/assets/scss/base.scss";'
       }
     }
   }

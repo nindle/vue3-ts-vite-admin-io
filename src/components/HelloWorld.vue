@@ -7,19 +7,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const props = defineProps<
-  {
-    msg: string;
-    bar?: number;
-  }
->();
+const props = defineProps<{
+  msg: string;
+  bar?: number;
+}>();
 
-const emit = defineEmits<
-  {
-    (e: 'change', id: number): void;
-    (e: 'update', value: string): void;
-  }
->();
+const emit = defineEmits<{
+  (e: 'change', id: number): void;
+  (e: 'update', value: string): void;
+}>();
 
 console.log(props.msg);
 console.log(emit);
@@ -27,5 +23,8 @@ console.log(emit);
 const count = ref(0);
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+button {
+  border: 0;
+}
 </style>
