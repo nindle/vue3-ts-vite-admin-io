@@ -2,16 +2,14 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    is_login: localStorage.getItem('is_login') ? localStorage.getItem('is_login') == 'true' : false,
+    token: false
   },
   mutations: {
-    onlogin(state) {
-      localStorage.setItem('is_login', 'true')
-      state.is_login = true
+    setToken(state) {
+      state.token = true
     },
-    onlogout(state) {
-      localStorage.setItem('is_login', 'false')
-      state.is_login = false
+    removeToken(state) {
+      state.token = false
     }
   },
   actions: {

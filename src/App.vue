@@ -52,7 +52,6 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
 } from '@ant-design/icons-vue';
-
 import { ref } from 'vue';
 
 const selectedKeys = ref<string[]>(['1']);
@@ -63,6 +62,7 @@ const onSearch = (searchValue: string) => {
   console.log('use value', searchValue);
   console.log('or use this.value', value.value);
 };
+
 </script>
 
 <style scoped lang="scss">
