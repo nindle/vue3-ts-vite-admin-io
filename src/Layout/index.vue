@@ -59,5 +59,6 @@ const onSearch = (searchValue: string) => {
 <style scoped lang="scss">
 .ant-layout {
   height: 100vh;
+  overflow: hidden;
 }
 </style>
