@@ -85,58 +85,64 @@
           allowClear
           :mode="item.multiple"
         />
-
+        <!-- 日期 -->
         <a-date-picker
           v-if="item.type === 'date-picker'"
+          :disabled="item.disabled"
+          :locale="locale"
           v-model:value="formState['date-picker']"
           value-format="YYYY-MM-DD"
         />
-
+        <!-- 日期时间 -->
         <a-date-picker
+          :locale="locale"
+          :disabled="item.disabled"
           v-if="item.type === 'date-time'"
           v-model:value="formState['date-time-picker']"
           show-time
           format="YYYY-MM-DD HH:mm:ss"
           value-format="YYYY-MM-DD HH:mm:ss"
         />
-
+        <!-- 月份 -->
         <a-date-picker
+          :locale="locale"
+          :disabled="item.disabled"
           v-if="item.type === 'date-month'"
           v-model:value="formState['month-picker']"
           value-format="YYYY-MM"
           picker="month"
         />
-
+        <!-- 开始结束时间 -->
         <a-range-picker
+          :locale="locale"
+          :disabled="item.disabled"
           v-if="item.type === 'date-ctime'"
           v-model:value="formState['range-picker']"
           value-format="YYYY-MM-DD"
         />
-
+        <!-- 时间 -->
         <a-time-picker
+          :locale="locale"
+          :disabled="item.disabled"
           v-if="item.type === 'time'"
           v-model:value="formState['time-picker']"
           value-format="HH:mm:ss"
         />
-
+        <!-- 数字 -->
         <a-input-number
           v-if="item.type === 'number'"
           v-model:value="formState['input-number']"
-          :min="1"
-          :max="10"
+          :min="item.min"
+          :disabled="item.disabled"
+          :addon-after="item.addonAfter"
+          :max="item.max"
         />
-
+        <!-- 进度条 -->
         <a-slider
           v-if="item.type === 'slider'"
+          :disabled="item.disabled"
           v-model:value="formState"
-          :marks="{
-            0: 'A',
-            20: 'B',
-            40: 'C',
-            60: 'D',
-            80: 'E',
-            100: 'F',
-          }"
+          :marks="item.marks"
         />
 
         <a-rate v-if="item.type === 'rate'" v-model:value="formState" allow-half />
@@ -181,6 +187,7 @@
 import { reactive, toRaw } from 'vue';
 import type { UnwrapRef } from 'vue';
 import { UploadOutlined, UserOutlined, InboxOutlined } from '@ant-design/icons-vue';
+import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 interface FormState {
   name: string;
   delivery: boolean;
@@ -275,10 +282,21 @@ const config = reactive({
   number: {
     type: 'number',
     label: '数字',
+    addonAfter: '$',
+    min: 1,
+    max: 100,
   },
   slider: {
     type: 'slider',
     label: '进度条',
+    marks: {
+      0: '0%',
+      20: '20%',
+      40: '40%',
+      60: '60%',
+      80: '80%',
+      100: '100%',
+    },
   },
   rate: {
     type: 'rate',
