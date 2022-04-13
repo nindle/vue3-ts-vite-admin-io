@@ -60,5 +60,8 @@ const onSearch = (searchValue: string) => {
 .ant-layout {
   height: 100vh;
   overflow: hidden;
+  .ant-layout-content {
+    overflow-y: scroll;
+  }
 }
 </style>
