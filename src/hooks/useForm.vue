@@ -44,13 +44,47 @@
             {{ e.label }}
           </a-checkbox>
         </a-checkbox-group>
+        <!-- 单选框 -->
+        <a-radio-group
+          v-if="item.type === 'radio'"
+          v-model:value="formState.resource"
+          :disabled="item.disabled"
+          :button-style="item.button ? 'solid' : 'outline'"
+        >
+          <div v-if="item.button">
+            <a-radio-button
+              :value="e.value"
+              name="type"
+              v-for="(e, index) in item.options"
+              :key="index"
+              :disabled="e.disabled"
+            >
+              {{ e.label }}
+            </a-radio-button>
+          </div>
 
-        <a-radio-group v-if="item.type === 'radio'" v-model:value="formState.resource">
-          <a-radio value="1">Sponsor</a-radio>
-          <a-radio value="2">Venue</a-radio>
+          <div v-else>
+            <a-radio
+              :value="e.value"
+              name="type"
+              v-for="(e, index) in item.options"
+              :key="index"
+              :disabled="e.disabled"
+            >
+              {{ e.label }}
+            </a-radio>
+          </div>
         </a-radio-group>
-
-        <a-select v-if="item.type === 'select'" v-model:value="formState.resource" :options="[]" />
+        <!-- 选择器未完成 -->
+        <a-select
+          v-if="item.type === 'select'"
+          v-model:value="formState.resource"
+          :options="item.options"
+          :disabled="item.disabled"
+          show-search
+          allowClear
+          :mode="item.multiple"
+        />
 
         <a-date-picker
           v-if="item.type === 'date-picker'"
@@ -182,7 +216,7 @@ const config = reactive({
   },
   checkbox: {
     type: 'checkbox',
-    label: '选择框',
+    label: '多选框',
     disabled: false,
     options: [
       { value: 1, label: '奔驰', disabled: true },
@@ -192,8 +226,14 @@ const config = reactive({
   },
   radio: {
     type: 'radio',
-    label: '圆形选择框',
-    hide: false,
+    label: '单选框',
+    button: true,
+    hide: true,
+    options: [
+      { value: 1, label: '捷豹', disabled: true },
+      { value: 2, label: '卡迪拉克' },
+      { value: 3, label: '马自达' },
+    ],
   },
   button: {
     type: 'button',
@@ -201,7 +241,16 @@ const config = reactive({
   },
   select: {
     type: 'select',
-    label: '下拉选择',
+    label: '选择器',
+    disabled: false,
+    multiple: 'multiple',
+    options: [
+      { value: 1, label: '捷豹' },
+      { value: 2, label: '卡迪拉克' },
+      { value: 3, label: '马自达' },
+      { value: 4, label: '飞机' },
+      { value: 5, label: '游轮' },
+    ],
   },
   date: {
     type: 'date-picker',
