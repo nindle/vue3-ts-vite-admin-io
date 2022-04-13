@@ -21,11 +21,28 @@
           :rows="item.height"
         />
         <!-- 开关 -->
-        <a-switch v-if="item.type === 'switch'" v-model:checked="formState.delivery" />
-        <a-checkbox-group v-if="item.type === 'checkbox'" v-model:value="formState.type">
-          <a-checkbox value="1" name="type">Online</a-checkbox>
-          <a-checkbox value="2" name="type">Promotion</a-checkbox>
-          <a-checkbox value="3" name="type">Offline</a-checkbox>
+        <a-switch
+          v-if="item.type === 'switch'"
+          v-model:checked="formState.delivery"
+          :disabled="item.disabled"
+          :checked-children="item.checkedValue"
+          :un-checked-children="item.unCheckedValue"
+        />
+        <!-- 多选框 -->
+        <a-checkbox-group
+          v-if="item.type === 'checkbox'"
+          v-model:value="formState.type"
+          :disabled="item.disabled"
+        >
+          <a-checkbox
+            :value="e.value"
+            name="type"
+            v-for="(e, index) in item.options"
+            :key="index"
+            :disabled="e.disabled"
+          >
+            {{ e.label }}
+          </a-checkbox>
         </a-checkbox-group>
 
         <a-radio-group v-if="item.type === 'radio'" v-model:value="formState.resource">
@@ -159,10 +176,19 @@ const config = reactive({
   switch: {
     type: 'switch',
     label: '开关',
+    checkedValue: '开',
+    unCheckedValue: '关',
+    disabled: false,
   },
   checkbox: {
     type: 'checkbox',
     label: '选择框',
+    disabled: false,
+    options: [
+      { value: 1, label: '奔驰', disabled: true },
+      { value: 2, label: '宝马' },
+      { value: 3, label: '奥迪' },
+    ],
   },
   radio: {
     type: 'radio',
