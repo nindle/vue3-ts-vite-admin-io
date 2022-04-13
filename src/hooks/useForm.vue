@@ -144,8 +144,15 @@
           v-model:value="formState"
           :marks="item.marks"
         />
-
-        <a-rate v-if="item.type === 'rate'" v-model:value="formState" allow-half />
+        <!-- 评分 -->
+        <a-rate
+          v-if="item.type === 'rate'"
+          v-model:value="formState"
+          :disabled="item.disabled"
+          :allow-half="item.allowHalf"
+          :character="item.character"
+          :count="item.count"
+        />
 
         <a-upload
           v-if="item.type === 'upload'"
@@ -172,7 +179,15 @@
           <p class="ant-upload-text">Click or drag file to this area to upload</p>
           <p class="ant-upload-hint">Support for a single or bulk upload.</p>
         </a-upload-dragger>
-        <a-button v-if="item.type === 'button'" type="primary" @click="onSubmit">Create</a-button>
+        <!-- 按钮 -->
+        <a-button
+          v-if="item.type === 'button'"
+          :disabled="item.disabled"
+          type="primary"
+          @click="onSubmit"
+        >
+          {{ item.label }}
+        </a-button>
       </a-form-item>
 
       <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
@@ -301,6 +316,8 @@ const config = reactive({
   rate: {
     type: 'rate',
     label: '打星',
+    allowHalf: true,
+    count: 10,
   },
   upload: {
     type: 'upload',
@@ -312,35 +329,39 @@ const config = reactive({
   },
 });
 
+const model: any = reactive({
+  input: '',
+  inputText: '',
+  switch: false,
+  checkbox: [],
+  radio: 0,
+  button: false,
+  select: [],
+  date: '',
+  datetime: '',
+  month: '',
+  ctime: '',
+  time: '',
+  number: 0,
+  slider: 0,
+  rate: 0,
+  upload: <any>0,
+  uploaddragger: <any>0,
+});
+
 const configList = Object.values(config).filter(item => {
   return item.hide !== false;
 });
 
 const configKeys = Object.entries(config);
-console.log(configKeys);
 
-// for (const item in ) {
-//   console.log(item);
+console.log({ ...Object.fromEntries(configKeys) });
 
-//   switch (item) {
-//     case 'input':
-//       console.log('input');
-
-//       break;
-
-//     default:
-//       break;
-//   }
-// }
-
+console.log(Object.fromEntries(configKeys));
 const formState: UnwrapRef<FormState> = reactive({
-  name: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-  upload: [],
+  ...model,
 });
+console.log(formState);
 
 const onSubmit = () => {
   console.log('submit!', toRaw(formState));
