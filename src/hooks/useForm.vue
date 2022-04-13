@@ -1,12 +1,12 @@
 <template>
   <div class="">
     <a-form :model="formState" :label-col="labelCol" :wrapper-col="wrapperCol">
-      <a-form-item label="Activity name">
-        <a-input v-model:value="formState.name" />
-      </a-form-item>
-
       <a-form-item :label="item.label" v-for="(item, index) in configList" :key="index">
-        <a-input v-if="item.type === 'input'" v-model:value="formState.name" />
+        <a-input
+          v-if="item.type === 'input'"
+          v-model:value="formState.name"
+          :placeholder="item.placeholder"
+        />
         <a-switch v-if="item.type === 'switch'" v-model:checked="formState.delivery" />
         <a-checkbox-group v-if="item.type === 'checkbox'" v-model:value="formState.type">
           <a-checkbox value="1" name="type">Online</a-checkbox>
@@ -101,7 +101,7 @@
           <p class="ant-upload-text">Click or drag file to this area to upload</p>
           <p class="ant-upload-hint">Support for a single or bulk upload.</p>
         </a-upload-dragger>
-        <a-button v-if="false" type="primary" @click="onSubmit">Create</a-button>
+        <a-button v-if="item.type === 'button'" type="primary" @click="onSubmit">Create</a-button>
       </a-form-item>
 
       <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
@@ -126,9 +126,10 @@ interface FormState {
 }
 
 const config = reactive({
-  input: {
+  input: <any>{
     type: 'input',
     label: '账号',
+    placeholder: '请输入账号',
     hide: false,
   },
   switch: {
@@ -142,6 +143,7 @@ const config = reactive({
   radio: {
     type: 'radio',
     label: '圆形选择框',
+    hide: false,
   },
   button: {
     type: 'button',
@@ -193,9 +195,8 @@ const config = reactive({
   },
 });
 
-const configList = Object.values(config);
-configList.forEach(item => {
-  console.log(item.type);
+const configList = Object.values(config).filter(item => {
+  return item.hide !== false;
 });
 
 const configKeys = Object.entries(config);
