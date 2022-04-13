@@ -2,11 +2,25 @@
   <div class="">
     <a-form :model="formState" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-item :label="item.label" v-for="(item, index) in configList" :key="index">
+        <!-- input -->
         <a-input
           v-if="item.type === 'input'"
           v-model:value="formState.name"
           :placeholder="item.placeholder"
+          :addon-before="item.addonBefore"
+          :addon-after="item.addonAfter"
+          :disabled="item.disabled"
+          allow-clear
         />
+        <!-- 文本域 -->
+        <a-textarea
+          v-if="item.type === 'input-text'"
+          v-model:value="formState.name"
+          :show-count="item.showcount"
+          :maxlength="item.maxlength"
+          :rows="item.height"
+        />
+        <!-- 开关 -->
         <a-switch v-if="item.type === 'switch'" v-model:checked="formState.delivery" />
         <a-checkbox-group v-if="item.type === 'checkbox'" v-model:value="formState.type">
           <a-checkbox value="1" name="type">Online</a-checkbox>
@@ -115,7 +129,7 @@
 <script setup lang="ts">
 import { reactive, toRaw } from 'vue';
 import type { UnwrapRef } from 'vue';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons-vue';
+import { UploadOutlined, UserOutlined, InboxOutlined } from '@ant-design/icons-vue';
 interface FormState {
   name: string;
   delivery: boolean;
@@ -130,7 +144,17 @@ const config = reactive({
     type: 'input',
     label: '账号',
     placeholder: '请输入账号',
-    hide: false,
+    addonBefore: 'Http://',
+    addonAfter: '.com',
+    disabled: false,
+  },
+  inputText: <any>{
+    type: 'input-text',
+    label: '文本域',
+    placeholder: '请输入内容',
+    maxlength: 100,
+    showcount: true,
+    height: 4,
   },
   switch: {
     type: 'switch',
