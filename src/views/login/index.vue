@@ -37,17 +37,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { defineComponent, reactive } from "vue";
-import { useRouter } from "vue-router";
-import store from "../../store/index";
+import { ref } from 'vue';
+import { defineComponent, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import store from '../../store/index';
 
 const router = useRouter();
-
-const goAbout = () => {
-  store.commit("setToken");
-  router.push({ path: "/" });
-};
 
 interface FormState {
   username: string;
@@ -56,17 +51,20 @@ interface FormState {
 }
 
 const formState = reactive<FormState>({
-  username: "",
-  password: "",
+  username: '',
+  password: '',
   remember: true,
 });
 
 const onFinish = (values: any) => {
-  console.log("Success:", values);
+  if (values.username === 'admin' && values.password === 'admin') {
+    store.commit('setToken');
+    router.push({ path: '/' });
+  }
 };
 
 const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
+  console.log('Failed:', errorInfo);
 };
 </script>
 
@@ -75,11 +73,15 @@ const onFinishFailed = (errorInfo: any) => {
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  background: url('../../assets/images/login_bg.jpg') no-repeat center;
   .ant-form {
-    width: 600px;
-    height: 300px;
-    background-color: #ccc;
-    margin: 200px auto;
+    width: 450px;
+    height: 250px;
+    border: 1px solid #ccc;
+    margin: 300px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
   }
 }
 </style>

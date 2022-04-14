@@ -1,11 +1,8 @@
 <template>
-  <div class="">
-    <AformData />
-  </div>
+  <div class="">123</div>
 </template>
 
 <script setup lang="ts">
-import AformData from '../../hooks/useForm.vue';
 import { ref } from 'vue';
 </script>
 

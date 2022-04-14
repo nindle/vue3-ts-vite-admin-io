@@ -5,7 +5,7 @@
         <!-- input -->
         <a-input
           v-if="item.type === 'input'"
-          v-model:value="formState.name"
+          v-model:value="formState[item.key]"
           :placeholder="item.placeholder"
           :addon-before="item.addonBefore"
           :addon-after="item.addonAfter"
@@ -15,7 +15,7 @@
         <!-- 文本域 -->
         <a-textarea
           v-if="item.type === 'input-text'"
-          v-model:value="formState.name"
+          v-model:value="formState[item.key]"
           :show-count="item.showcount"
           :maxlength="item.maxlength"
           :rows="item.height"
@@ -23,7 +23,7 @@
         <!-- 开关 -->
         <a-switch
           v-if="item.type === 'switch'"
-          v-model:checked="formState.delivery"
+          v-model:value="formState[item.key]"
           :disabled="item.disabled"
           :checked-children="item.checkedValue"
           :un-checked-children="item.unCheckedValue"
@@ -31,7 +31,7 @@
         <!-- 多选框 -->
         <a-checkbox-group
           v-if="item.type === 'checkbox'"
-          v-model:value="formState.type"
+          v-model:value="formState[item.key]"
           :disabled="item.disabled"
         >
           <a-checkbox
@@ -47,7 +47,7 @@
         <!-- 单选框 -->
         <a-radio-group
           v-if="item.type === 'radio'"
-          v-model:value="formState.resource"
+          v-model:value="formState[item.key]"
           :disabled="item.disabled"
           :button-style="item.button ? 'solid' : 'outline'"
         >
@@ -78,7 +78,7 @@
         <!-- 选择器未完成 -->
         <a-select
           v-if="item.type === 'select'"
-          v-model:value="formState.resource"
+          v-model:value="formState[item.key]"
           :options="item.options"
           :disabled="item.disabled"
           show-search
@@ -90,7 +90,7 @@
           v-if="item.type === 'date-picker'"
           :disabled="item.disabled"
           :locale="locale"
-          v-model:value="formState['date-picker']"
+          v-model:value="formState[item.key]"
           value-format="YYYY-MM-DD"
         />
         <!-- 日期时间 -->
@@ -98,7 +98,7 @@
           :locale="locale"
           :disabled="item.disabled"
           v-if="item.type === 'date-time'"
-          v-model:value="formState['date-time-picker']"
+          v-model:value="formState[item.key]"
           show-time
           format="YYYY-MM-DD HH:mm:ss"
           value-format="YYYY-MM-DD HH:mm:ss"
@@ -108,7 +108,7 @@
           :locale="locale"
           :disabled="item.disabled"
           v-if="item.type === 'date-month'"
-          v-model:value="formState['month-picker']"
+          v-model:value="formState[item.key]"
           value-format="YYYY-MM"
           picker="month"
         />
@@ -117,7 +117,7 @@
           :locale="locale"
           :disabled="item.disabled"
           v-if="item.type === 'date-ctime'"
-          v-model:value="formState['range-picker']"
+          v-model:value="formState[item.key]"
           value-format="YYYY-MM-DD"
         />
         <!-- 时间 -->
@@ -125,13 +125,13 @@
           :locale="locale"
           :disabled="item.disabled"
           v-if="item.type === 'time'"
-          v-model:value="formState['time-picker']"
+          v-model:value="formState[item.key]"
           value-format="HH:mm:ss"
         />
         <!-- 数字 -->
         <a-input-number
           v-if="item.type === 'number'"
-          v-model:value="formState['input-number']"
+          v-model:value="formState[item.key]"
           :min="item.min"
           :disabled="item.disabled"
           :addon-after="item.addonAfter"
@@ -141,13 +141,13 @@
         <a-slider
           v-if="item.type === 'slider'"
           :disabled="item.disabled"
-          v-model:value="formState"
+          v-model:value="formState[item.key]"
           :marks="item.marks"
         />
         <!-- 评分 -->
         <a-rate
           v-if="item.type === 'rate'"
-          v-model:value="formState"
+          v-model:value="formState[item.key]"
           :disabled="item.disabled"
           :allow-half="item.allowHalf"
           :character="item.character"
@@ -156,7 +156,7 @@
 
         <a-upload
           v-if="item.type === 'upload'"
-          v-model:fileList="formState.upload"
+          v-model:value="formState[item.key]"
           name="logo"
           action="/upload.do"
           list-type="picture"
@@ -169,7 +169,7 @@
 
         <a-upload-dragger
           v-if="item.type === 'upload-dragger'"
-          v-model:fileList="formState.upload"
+          v-model:value="formState[item.key]"
           name="files"
           action="/upload.do"
         >
@@ -203,14 +203,16 @@ import { reactive, toRaw } from 'vue';
 import type { UnwrapRef } from 'vue';
 import { UploadOutlined, UserOutlined, InboxOutlined } from '@ant-design/icons-vue';
 import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
-interface FormState {
-  name: string;
-  delivery: boolean;
-  type: string[];
-  resource: string;
-  desc: string;
-  upload: any;
-}
+
+const props = defineProps<{
+  config: object;
+  model: object;
+}>();
+
+const emit = defineEmits<{
+  (e: 'change', id: number): void;
+  (e: 'update', value: string): void;
+}>();
 
 const config = reactive({
   input: <any>{
@@ -220,6 +222,7 @@ const config = reactive({
     addonBefore: 'Http://',
     addonAfter: '.com',
     disabled: false,
+    key: 'input',
   },
   inputText: <any>{
     type: 'input-text',
@@ -228,6 +231,7 @@ const config = reactive({
     maxlength: 100,
     showcount: true,
     height: 4,
+    key: 'inputText',
   },
   switch: {
     type: 'switch',
@@ -235,6 +239,7 @@ const config = reactive({
     checkedValue: '开',
     unCheckedValue: '关',
     disabled: false,
+    key: 'switch',
   },
   checkbox: {
     type: 'checkbox',
@@ -245,6 +250,7 @@ const config = reactive({
       { value: 2, label: '宝马' },
       { value: 3, label: '奥迪' },
     ],
+    key: 'checkbox',
   },
   radio: {
     type: 'radio',
@@ -256,6 +262,7 @@ const config = reactive({
       { value: 2, label: '卡迪拉克' },
       { value: 3, label: '马自达' },
     ],
+    key: 'radio',
   },
   button: {
     type: 'button',
@@ -273,26 +280,32 @@ const config = reactive({
       { value: 4, label: '飞机' },
       { value: 5, label: '游轮' },
     ],
+    key: 'select',
   },
   date: {
     type: 'date-picker',
     label: '日期',
+    key: 'date',
   },
   datetime: {
     type: 'date-time',
     label: '日期时间',
+    key: 'datetime',
   },
   month: {
     type: 'date-month',
     label: '月份',
+    key: 'month',
   },
   ctime: {
     type: 'date-ctime',
     label: '开始结束时间',
+    key: 'ctime',
   },
   time: {
     type: 'time',
     label: '时间',
+    key: 'time',
   },
   number: {
     type: 'number',
@@ -300,6 +313,7 @@ const config = reactive({
     addonAfter: '$',
     min: 1,
     max: 100,
+    key: 'number',
   },
   slider: {
     type: 'slider',
@@ -312,20 +326,24 @@ const config = reactive({
       80: '80%',
       100: '100%',
     },
+    key: 'slider',
   },
   rate: {
     type: 'rate',
     label: '打星',
     allowHalf: true,
     count: 10,
+    key: 'rate',
   },
   upload: {
     type: 'upload',
     label: '上传',
+    key: 'upload',
   },
   uploaddragger: {
     type: 'upload-dragger',
     label: '上传',
+    key: 'uploaddragger',
   },
 });
 
@@ -349,19 +367,13 @@ const model: any = reactive({
   uploaddragger: <any>0,
 });
 
-const configList = Object.values(config).filter(item => {
+const configList = Object.values(props.config).filter(item => {
   return item.hide !== false;
 });
 
-const configKeys = Object.entries(config);
-
-console.log({ ...Object.fromEntries(configKeys) });
-
-console.log(Object.fromEntries(configKeys));
-const formState: UnwrapRef<FormState> = reactive({
-  ...model,
+const formState: UnwrapRef<any> = reactive({
+  ...props.model,
 });
-console.log(formState);
 
 const onSubmit = () => {
   console.log('submit!', toRaw(formState));
