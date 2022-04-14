@@ -20,7 +20,7 @@
                 </span>
               </template>
               <a-menu-item :key="index" v-for="(el, index) in 4">
-                {{ `路由子页面${el}` }}
+                {{ `路由子子页面${el}` }}
               </a-menu-item>
             </a-sub-menu>
           </a-sub-menu>
