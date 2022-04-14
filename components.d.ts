@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     ARate: typeof import('ant-design-vue/es')['Rate']
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASlider: typeof import('ant-design-vue/es')['Slider']
+    ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     ATimePicker: typeof import('ant-design-vue/es')['TimePicker']
