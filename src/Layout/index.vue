@@ -3,8 +3,14 @@
     <a-layout>
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
         <div class="logo" />
-        <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-          <a-sub-menu @titleClick="navPath('123')" :key="index" v-for="(el, index) in navPathList">
+        <a-menu
+          v-model:selectedKeys="selectedKeys"
+          theme="dark"
+          mode="inline"
+          :open-keys="openKey"
+          @openChange="onOpenChange"
+        >
+          <a-sub-menu @titleClick="navPath('123')" :key="i" v-for="(el, i) in navPathList">
             <template #title>
               <span>
                 <user-outlined />
@@ -12,14 +18,14 @@
               </span>
             </template>
 
-            <a-sub-menu @titleClick="navPath('123')" :key="index" v-for="(e, index) in el.children">
+            <a-sub-menu @titleClick="navPath('123')" :key="`1-${k}`" v-for="(e, k) in el.children">
               <template #title>
                 <span>
                   <user-outlined />
                   {{ e.name }}
                 </span>
               </template>
-              <a-menu-item @Click="navPath('123')" :key="index" v-for="(i, index) in e.children">
+              <a-menu-item @Click="navPath('123')" :key="`1-1-${j}`" v-for="(i, j) in e.children">
                 {{ i.name }}
               </a-menu-item>
             </a-sub-menu>
@@ -48,7 +54,7 @@
 
 <script setup lang="ts">
 import { UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
 const selectedKeys = ref<string[]>(['1']);
 const collapsed = ref<boolean>(false);
@@ -121,6 +127,19 @@ const onSearch = (searchValue: string) => {
 
 const navPath = (path: string) => {
   console.log(path);
+};
+
+const openKey = ref<any>([0]);
+
+const rootSubmenuKeys = ref<any>([0, 1, 2, 3, 4, 5]);
+
+const onOpenChange = (openKeys: string[]) => {
+  const latestOpenKey = openKeys.find(key => openKey.value.indexOf(key) === -1);
+  if (rootSubmenuKeys.value.indexOf(latestOpenKey!) === -1) {
+    openKey.value = openKeys;
+  } else {
+    openKey.value = latestOpenKey ? [latestOpenKey] : [];
+  }
 };
 </script>
 
