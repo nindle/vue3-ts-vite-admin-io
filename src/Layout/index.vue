@@ -4,23 +4,23 @@
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
         <div class="logo" />
         <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-          <a-sub-menu :key="index" v-for="(el, index) in 6">
+          <a-sub-menu @titleClick="navPath('123')" :key="index" v-for="(el, index) in navPathList">
             <template #title>
               <span>
                 <user-outlined />
-                {{ `路由页面${el}` }}
+                {{ el.name }}
               </span>
             </template>
 
-            <a-sub-menu :key="index" v-for="(el, index) in 6">
+            <a-sub-menu @titleClick="navPath('123')" :key="index" v-for="(e, index) in el.children">
               <template #title>
                 <span>
                   <user-outlined />
-                  {{ `路由子页面${el}` }}
+                  {{ e.name }}
                 </span>
               </template>
-              <a-menu-item :key="index" v-for="(el, index) in 4">
-                {{ `路由子子页面${el}` }}
+              <a-menu-item @Click="navPath('123')" :key="index" v-for="(i, index) in e.children">
+                {{ i.name }}
               </a-menu-item>
             </a-sub-menu>
           </a-sub-menu>
@@ -47,21 +47,80 @@
 </template>
 
 <script setup lang="ts">
-import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-} from '@ant-design/icons-vue';
+import { UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { ref } from 'vue';
+
 const selectedKeys = ref<string[]>(['1']);
 const collapsed = ref<boolean>(false);
 const value = ref<string>('');
 
+const navPathList = ref<any>([
+  {
+    name: '菜单管理',
+    path: 'home',
+    mate: true,
+    children: [
+      { name: '路由菜单', path: 'home_q', mate: true },
+      { name: '员工菜单', path: 'home_w', mate: true },
+      {
+        name: '权限菜单',
+        path: 'home_s',
+        mate: true,
+        children: [
+          { name: '一级菜单', path: 'home_qw', mate: true },
+          { name: '二级菜单', path: 'home_qe', mate: true },
+          { name: '三级菜单', path: 'home_qs', mate: true },
+        ],
+      },
+    ],
+  },
+  {
+    name: '菜单管理',
+    path: 'home',
+    mate: true,
+    children: [
+      { name: '路由菜单', path: 'home_q', mate: true },
+      { name: '员工菜单', path: 'home_w', mate: true },
+      {
+        name: '权限菜单',
+        path: 'home_s',
+        mate: true,
+        children: [
+          { name: '一级菜单', path: 'home_qw', mate: true },
+          { name: '二级菜单', path: 'home_qe', mate: true },
+          { name: '三级菜单', path: 'home_qs', mate: true },
+        ],
+      },
+    ],
+  },
+  {
+    name: '菜单管理',
+    path: 'home',
+    mate: true,
+    children: [
+      { name: '路由菜单', path: 'home_q', mate: true },
+      { name: '员工菜单', path: 'home_w', mate: true },
+      {
+        name: '权限菜单',
+        path: 'home_s',
+        mate: true,
+        children: [
+          { name: '一级菜单', path: 'home_qw', mate: true },
+          { name: '二级菜单', path: 'home_qe', mate: true },
+          { name: '三级菜单', path: 'home_qs', mate: true },
+        ],
+      },
+    ],
+  },
+]);
+
 const onSearch = (searchValue: string) => {
   console.log('use value', searchValue);
   console.log('or use this.value', value.value);
+};
+
+const navPath = (path: string) => {
+  console.log(path);
 };
 </script>
 
