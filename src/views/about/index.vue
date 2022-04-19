@@ -4,13 +4,12 @@
 
 <script>
 export default {
-  data() {
+  components: {},
+  props: {},
+  setup() {
     return {};
   },
-  mounted() {},
-  methods: {},
-  computed: {},
 };
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="scss"></style>
