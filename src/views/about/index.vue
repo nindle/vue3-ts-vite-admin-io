@@ -1,15 +1,7 @@
 <template>
-  <div></div>
+  <div>312</div>
 </template>
 
-<script>
-export default {
-  components: {},
-  props: {},
-  setup() {
-    return {};
-  },
-};
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss"></style>

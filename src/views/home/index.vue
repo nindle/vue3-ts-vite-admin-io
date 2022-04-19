@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-const lianjie = async () => {};
+import { ref, onMounted } from 'vue';
+const lianjie = () => {};
 </script>
 
 <style scoped lang="scss"></style>
