@@ -37,10 +37,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { defineComponent, reactive } from 'vue';
-import { useRouter } from 'vue-router';
-import store from '../../store/index';
+import { ref } from "vue";
+import { defineComponent, reactive } from "vue";
+import { useRouter } from "vue-router";
+import store from "../../store/index";
 
 const router = useRouter();
 
@@ -51,20 +51,22 @@ interface FormState {
 }
 
 const formState = reactive<FormState>({
-  username: '',
-  password: '',
+  username: "",
+  password: "",
   remember: true,
 });
 
 const onFinish = (values: any) => {
-  if (values.username === 'admin' && values.password === 'admin') {
-    store.commit('setToken');
-    router.push({ path: '/' });
+  console.log(values);
+
+  if (values.username === "admin" && values.password === "admin") {
+    store.commit("setToken");
+    router.push({ path: "/" });
   }
 };
 
 const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
+  console.log("Failed:", errorInfo);
 };
 </script>
 
@@ -73,7 +75,7 @@ const onFinishFailed = (errorInfo: any) => {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: url('../../assets/images/login_bg.jpg') no-repeat center;
+  background: url("../../assets/images/login_bg.jpg") no-repeat center;
   .ant-form {
     width: 450px;
     height: 250px;

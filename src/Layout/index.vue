@@ -10,7 +10,7 @@
           :open-keys="openKey"
           @openChange="onOpenChange"
         >
-          <a-sub-menu @titleClick="navPath('123')" :key="i" v-for="(el, i) in navPathList">
+          <a-sub-menu :key="i" v-for="(el, i) in navPathList">
             <template #title>
               <span>
                 <user-outlined />
@@ -18,14 +18,14 @@
               </span>
             </template>
 
-            <a-sub-menu @titleClick="navPath('123')" :key="`1-${k}`" v-for="(e, k) in el.children">
+            <a-sub-menu :key="`1-${k}`" v-for="(e, k) in el.children">
               <template #title>
                 <span>
                   <user-outlined />
                   {{ e.name }}
                 </span>
               </template>
-              <a-menu-item @Click="navPath('123')" :key="`1-1-${j}`" v-for="(i, j) in e.children">
+              <a-menu-item @Click="navPath(i.path)" :key="`1-1-${j}`" v-for="(i, j) in e.children">
                 {{ i.name }}
               </a-menu-item>
             </a-sub-menu>
@@ -53,67 +53,69 @@
 </template>
 
 <script setup lang="ts">
-import { UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
-import { ref, reactive } from 'vue';
+import { UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons-vue";
+import { ref, reactive } from "vue";
+import { useRouter } from "vue-router";
 
-const selectedKeys = ref<string[]>(['1']);
+const selectedKeys = ref<string[]>(["1"]);
 const collapsed = ref<boolean>(false);
-const value = ref<string>('');
+const value = ref<string>("");
+const router = useRouter();
 
 const navPathList = ref<any>([
   {
-    name: '菜单管理',
-    path: 'home',
+    name: "菜单管理",
+    path: "home",
     mate: true,
     children: [
-      { name: '路由菜单', path: 'home_q', mate: true },
-      { name: '员工菜单', path: 'home_w', mate: true },
+      { name: "路由菜单", path: "home_q", mate: true },
+      { name: "员工菜单", path: "home_w", mate: true },
       {
-        name: '权限菜单',
-        path: 'home_s',
+        name: "权限菜单",
+        path: "home_s",
         mate: true,
         children: [
-          { name: '一级菜单', path: 'home_qw', mate: true },
-          { name: '二级菜单', path: 'home_qe', mate: true },
-          { name: '三级菜单', path: 'home_qs', mate: true },
+          { name: "一级菜单", path: "/", mate: true },
+          { name: "二级菜单", path: "/about", mate: true },
+          { name: "三级菜单", path: "home_qs", mate: true },
         ],
       },
     ],
   },
   {
-    name: '菜单管理',
-    path: 'home',
+    name: "菜单管理",
+    path: "home",
     mate: true,
     children: [
-      { name: '路由菜单', path: 'home_q', mate: true },
-      { name: '员工菜单', path: 'home_w', mate: true },
+      { name: "路由菜单", path: "home_q", mate: true },
+      { name: "员工菜单", path: "home_w", mate: true },
       {
-        name: '权限菜单',
-        path: 'home_s',
+        name: "权限菜单",
+        path: "home_s",
         mate: true,
         children: [
-          { name: '一级菜单', path: 'home_qw', mate: true },
-          { name: '二级菜单', path: 'home_qe', mate: true },
-          { name: '三级菜单', path: 'home_qs', mate: true },
+          { name: "一级菜单", path: "home_qw", mate: true },
+          { name: "二级菜单", path: "home_qe", mate: true },
+          { name: "三级菜单", path: "home_qs", mate: true },
         ],
       },
     ],
   },
   {
-    name: '菜单管理',
-    path: 'home',
+    name: "菜单管理",
+    path: "home",
     mate: true,
     children: [
-      { name: '路由菜单', path: 'home_q', mate: true },
-      { name: '员工菜单', path: 'home_w', mate: true },
+      { name: "路由菜单", path: "home_q", mate: true },
+      { name: "员工菜单", path: "home_w", mate: true },
       {
-        name: '权限菜单',
-        path: 'home_s',
+        name: "权限菜单",
+        path: "home_s",
         mate: true,
         children: [
-          { name: '一级菜单', path: 'home_qw', mate: true },
-          { name: '二级菜单', path: 'home_qe', mate: true },
-          { name: '三级菜单', path: 'home_qs', mate: true },
+          { name: "一级菜单", path: "home_qw", mate: true },
+          { name: "二级菜单", path: "home_qe", mate: true },
+          { name: "三级菜单", path: "home_qs", mate: true },
         ],
       },
     ],
@@ -121,12 +123,12 @@ const navPathList = ref<any>([
 ]);
 
 const onSearch = (searchValue: string) => {
-  console.log('use value', searchValue);
-  console.log('or use this.value', value.value);
+  console.log("use value", searchValue);
+  console.log("or use this.value", value.value);
 };
 
 const navPath = (path: string) => {
-  console.log(path);
+  router.push({ path });
 };
 
 const openKey = ref<any>([0]);
