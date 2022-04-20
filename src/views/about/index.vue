@@ -1,5 +1,5 @@
 <template>
-  <div>312</div>
+  <div>我是Obout页面</div>
 </template>
 
 <script setup lang="ts"></script>
